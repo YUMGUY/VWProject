@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject cameraRig;
     public GameObject mainCamera;
+    public GameObject eventSystem;
     public RoomData currentRoomData; // Added this to store data
 
     private void Awake()
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(player);
+            if(eventSystem!=null) DontDestroyOnLoad(eventSystem);
             if (cameraRig != null) DontDestroyOnLoad(cameraRig);
             if (mainCamera != null) DontDestroyOnLoad(mainCamera);
         }
@@ -51,8 +53,14 @@ public class GameManager : MonoBehaviour
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint");
         if (spawnPoint != null)
         {
+            print("Spawned at spawn point");
+            CharacterController cc = player.GetComponent<CharacterController>();
+            if (cc != null) cc.enabled = false;
+
             player.transform.position = spawnPoint.transform.position;
             player.transform.rotation = spawnPoint.transform.rotation;
+
+            if (cc != null) cc.enabled = true;
         }
         else
         {
