@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0e9de7a406bb44288dfa4913f54ee6, type: 3}
+  m_Name: FloorConfig1
+  m_EditorClassIdentifier: Assembly-CSharp::FloorConfig
+  maxRooms: 24
+  maxDepth: 3
+  startRoomExits: 3
+  minNeighborsPerRoom: 2
+  maxNeighborsPerRoom: 3
+  seed: 123
+  availableRoomScenes:
+  - Room1
+  - Room2
+  roomTypes:
+  - {fileID: 11400000, guid: 49c28cc803a50a744b464bb7d1d95241, type: 2}
+  - {fileID: 11400000, guid: df345f87ee65b544b8114909a03dd44b, type: 2}
+  startType: {fileID: 11400000, guid: b4fc7f53096cff34792bc3271f88c85a, type: 2}
+  defaultCombatType: {fileID: 11400000, guid: 49c28cc803a50a744b464bb7d1d95241, type: 2}

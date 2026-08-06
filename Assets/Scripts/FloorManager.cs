@@ -6,14 +6,16 @@ public class FloorManager : MonoBehaviour
 {
     public static FloorManager Instance;
 
-    // A pool of possible scenes for this floor
-    public List<string> availableRoomScenes;
+    [Tooltip("Assign a FloorConfig asset that defines size, depth, branching, seed, scene pool and room types.")]
+    public FloorConfig floorConfig;
 
-    // This will hold the dynamic data for the current floor's minimap
-    public List<RoomData> currentFloorRooms { get; private set; }
+    // The procedurally generated floor tree for this run.
+    public Floor CurrentFloor { get; private set; }
 
-    // The room the player started the game in (captured on first GenerateFloor call)
-    public RoomData startingRoomData { get; private set; }
+    // The room the player started in (root of the tree).
+    public RoomData startingRoomData => CurrentFloor != null ? CurrentFloor.Start : null;
+
+    public bool IsGenerated => CurrentFloor != null && CurrentFloor.nodes.Count > 0;
 
     private void Awake()
     {
@@ -21,44 +23,36 @@ public class FloorManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Builds the floor tree using the assigned FloorConfig. The currently active scene
+    /// becomes the start room's layout, so this should run while the player is in the
+    /// first room (matching the previous lazy-generation behavior).
+    /// </summary>
     public void GenerateFloor()
     {
-        startingRoomData = new RoomData();
-        startingRoomData.sceneName = SceneManager.GetActiveScene().name;
-        startingRoomData.roomName = "Starting Room";
-
-        currentFloorRooms = new List<RoomData>();
-
-        // Randomly pick rooms from the pool (example: 4 rooms)
-        for (int i = 0; i < 4; i++)
+        if (floorConfig == null)
         {
-            RoomData room = new RoomData();
-            room.sceneName = availableRoomScenes[Random.Range(0, availableRoomScenes.Count)];
-            room.roomName = "Room " + (i + 1);
-            room.difficulty = Random.Range(1, 5);
-            room.direction = (RoomData.Direction)i;
-            currentFloorRooms.Add(room);
+            Debug.LogError("FloorManager: no FloorConfig assigned; cannot generate floor.");
+            return;
         }
+
+        string startScene = SceneManager.GetActiveScene().name;
+        CurrentFloor = FloorGenerator.Generate(floorConfig, startScene);
     }
 
-    // All known rooms on this floor: the Starting Room plus its 4 neighbors.
+    /// <summary>Look up a node by id.</summary>
+    public RoomData GetRoom(int id)
+    {
+        if (CurrentFloor != null && CurrentFloor.nodes.TryGetValue(id, out RoomData room))
+            return room;
+        return null;
+    }
+
+    /// <summary>Every room on the floor (start room + all generated rooms).</summary>
     public List<RoomData> GetAllRooms()
     {
-        List<RoomData> all = new List<RoomData> { startingRoomData };
-        all.AddRange(currentFloorRooms);
+        var all = new List<RoomData>();
+        if (CurrentFloor != null) all.AddRange(CurrentFloor.nodes.Values);
         return all;
-    }
-
-    // Rooms reachable from the given room. For now, the Starting Room's neighbors
-    // are the 4 generated rooms, and each generated room's only neighbor is the
-    // Starting Room (a back-link) — no further neighbor graph exists yet.
-    public List<RoomData> GetNeighbors(RoomData current)
-    {
-        if (current == null || current == startingRoomData)
-        {
-            return currentFloorRooms;
-        }
-
-        return new List<RoomData> { startingRoomData };
     }
 }

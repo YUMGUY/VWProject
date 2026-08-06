@@ -606,7 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1833a68cbf61014896aad1ef3f6d602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomGenerator
-  cubePrefab: {fileID: 7711981214968783901, guid: a323556526045b4489f714dd63ec9382, type: 3}
+  cubePrefab: {fileID: 2848717656240582305, guid: b4c7728adf64a164fa7bc4defe46a8ef, type: 3}
   spawnParent: {fileID: 1451100614}
 --- !u!4 &1272902339
 Transform:

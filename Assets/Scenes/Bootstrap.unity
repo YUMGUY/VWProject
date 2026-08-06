@@ -148,9 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f218f12b93996d4499baf9966fe67ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloorManager
-  availableRoomScenes:
-  - Room1
-  - Room2
+  floorConfig: {fileID: 11400000, guid: 6cbd53f6c863623419e84946693a153e, type: 2}
 --- !u!4 &63323772
 Transform:
   m_ObjectHideFlags: 0
@@ -313,6 +311,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map Button
       objectReference: {fileID: 0}
+    - target: {fileID: 2427612735579397304, guid: 5c735d48faca78f4fa8011afc3a83f9f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8523096530031355892, guid: 5c735d48faca78f4fa8011afc3a83f9f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -450,7 +452,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 500}
+  m_SizeDelta: {x: 1000, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &678684428
 MonoBehaviour:
@@ -962,10 +964,16 @@ MonoBehaviour:
   mainCamera: {fileID: 8944336656349189697}
   eventSystem: {fileID: 746329222}
   currentRoomData:
+    id: -1
+    parentId: -1
     sceneName: 
     roomName: 
+    cell: {x: 0, y: 0}
+    depth: 0
+    neighborIds: 
+    roomType: {fileID: 0}
     difficulty: 0
-    direction: 0
+    enemyCount: 0
 --- !u!114 &2111591651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -982,6 +990,7 @@ MonoBehaviour:
   buttonPrefab: {fileID: 2427612735579397304, guid: 5c735d48faca78f4fa8011afc3a83f9f, type: 3}
   container: {fileID: 678684427}
   startButton: {fileID: 660540377}
+  cellSpacing: 200
 --- !u!4 &2111591652
 Transform:
   m_ObjectHideFlags: 0
